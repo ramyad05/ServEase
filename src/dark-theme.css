@@ -1,0 +1,101 @@
+/*
+ * ServEase DARK THEME  (plain CSS, loaded from App.jsx)
+ *
+ * Light Mode is the unchanged original design (index.css + the components' own classes).
+ * Everything in this file is scoped to ":root.dark" (the "dark" class on <html>, set by
+ * ThemeProvider), so it can never affect Light Mode.
+ *
+ * How it works:
+ *  1. The existing tokens (ink, muted, line, brand-50) are re-defined for dark mode, so every
+ *     utility that uses them (text-ink, text-muted, border-line, bg-brand-50 ...) follows automatically.
+ *  2. The few light-only utilities (bg-white, bg-slate-50, text-brand-600 ...) are mapped to dark colours.
+ *     Future pages that use the same utilities are themed automatically.
+ *  3. Elements that must look the same in both themes are left alone: the hero illustration
+ *     (hard-coded SVG colours), the navy footer, the white CTA button, white-on-brand text.
+ */
+
+:root.dark {
+  color-scheme: dark; /* native dropdown lists, scrollbars and form controls follow the theme */
+
+  /* Dark palette */
+  --dk-page: #0a1020;
+  --dk-surface: #111a2e;
+  --dk-surface-alt: #0d1527;
+  --dk-subtle: #1a2540;
+  --dk-field: #0b1325;
+  --dk-brand-text: #6ea8ff;
+  --dk-cta: #1e3a8a;
+  --dk-danger: #f87171;
+  --dk-success-bg: #0f2a1d;
+  --dk-success-line: #1f5a3a;
+  --dk-success-ink: #86efac;
+
+  /* Re-define the existing ServEase tokens (defined in index.css) */
+  --color-ink: #e8edf7;
+  --color-muted: #9fabc2;
+  --color-line: #26324d;
+  --color-brand-50: #10203d;
+}
+
+/* ---------- Backgrounds ---------- */
+:root.dark body { background-color: var(--dk-page); }
+
+/* Cards, navbar, panels. The white CTA button (border-transparent) deliberately stays white. */
+:root.dark .bg-white:not(.border-transparent) { background-color: var(--dk-surface); }
+:root.dark .bg-white\/95 { background-color: color-mix(in srgb, var(--dk-surface) 95%, transparent); }
+:root.dark input.bg-white,
+:root.dark textarea.bg-white,
+:root.dark select.bg-white { background-color: var(--dk-field); }
+:root.dark .bg-white.border-transparent:hover { background-color: #eff6ff; }
+
+:root.dark .bg-slate-50 { background-color: var(--dk-surface-alt); }
+:root.dark .bg-slate-100 { background-color: var(--dk-subtle); }
+:root.dark .to-white { --tw-gradient-to: var(--dk-page); }   /* hero / auth page gradient end */
+:root.dark .bg-brand-900 { background-color: var(--dk-cta); } /* call-to-action panel */
+
+/* ---------- Text ---------- */
+:root.dark .text-brand-600,
+:root.dark .hover\:text-brand-600:hover { color: var(--dk-brand-text); }
+:root.dark .text-brand-700:not(.border-transparent) { color: var(--dk-brand-text); }
+:root.dark .text-brand-900 { color: var(--color-ink); }
+:root.dark .text-slate-500,
+:root.dark .text-slate-600,
+:root.dark .text-slate-700 { color: var(--color-muted); }
+:root.dark .text-slate-800,
+:root.dark .text-slate-900 { color: var(--color-ink); }
+
+/* ---------- Borders and focus rings ---------- */
+:root.dark .border-slate-200,
+:root.dark .border-slate-300 { border-color: var(--color-line); }
+:root.dark .border-brand-100 { border-color: #1b3763; }
+:root.dark .focus\:outline-brand-100:focus { outline-color: rgb(110 168 255 / 0.3); }
+:root.dark .focus-visible\:outline-brand-600:focus-visible { outline-color: var(--dk-brand-text); }
+:root.dark .has-focus-visible\:outline-brand-600:has(:focus-visible) { outline-color: var(--dk-brand-text); }
+
+/* ---------- Status colours (errors / success) ---------- */
+:root.dark .text-red-600 { color: var(--dk-danger); }
+:root.dark .focus\:outline-red-100:focus { outline-color: rgb(248 113 113 / 0.3); }
+:root.dark .bg-green-50 { background-color: var(--dk-success-bg); }
+:root.dark .border-green-200 { border-color: var(--dk-success-line); }
+:root.dark .text-green-800 { color: var(--dk-success-ink); }
+
+/* ---------- Smooth switch (class is added for ~0.35s while toggling) ---------- */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    outline-color 0.25s ease !important;
+}
+
+/* ---------- Browser autofill stays readable ---------- */
+:root.dark input:-webkit-autofill,
+:root.dark textarea:-webkit-autofill,
+:root.dark select:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-ink);
+  caret-color: var(--color-ink);
+  box-shadow: 0 0 0 1000px var(--dk-field) inset;
+}
